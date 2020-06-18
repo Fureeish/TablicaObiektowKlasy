@@ -1,16 +1,15 @@
-﻿#include <iostream>
-
-//=====================================================
+#include <iostream>
+#include <vector>
 
 class Channel
 {
-	double* data;
+    std::vector<double> data;
 
 public:
-	Channel();
+    Channel(const std::size_t dlugosc);
 };
 
-Channel::Channel() : data(new double[dlugosc]) {};
+Channel::Channel(const std::size_t dlugosc) : data(dlugosc) {}
 
 
 // ============================================
@@ -18,19 +17,24 @@ Channel::Channel() : data(new double[dlugosc]) {};
 class Buffer
 {
 public:
-	int		dlugosc{ 48000 };
-	int		ilosc{ 5 };
-	Channel*	kanal;
+    int		dlugosc{ 48000 };
+    int		ilosc{ 5 };
+    std::vector<Channel> kanal;
 
-	Buffer();
+    Buffer();
 };
 
-Buffer::Buffer() : kanal(new Channel[ilosc]) {};
+Buffer::Buffer() {
+    kanal.reserve(ilosc);
+    for (int i = 0; i < ilosc; i++) {
+        kanal.emplace_back(dlugosc);
+    }
+}
 
 //==============================================
 
 
 int main()
 {
-	Buffer buforek;
+    Buffer buforek;
 }
